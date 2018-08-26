@@ -30,6 +30,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var itemScoreLabelNode:SKLabelNode!
     var itemBestScoreLabelNode:SKLabelNode!
     
+    // 効果音
+    var itemGetSound:SKAction!
+    
     let userDefaults:UserDefaults = UserDefaults.standard
     
     // SKView上にシーンが表示されたときに呼ばれるメソッド
@@ -48,6 +51,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         wallNode = SKNode()
         scrollNode.addChild(wallNode)
+        
+        // 効果音ファイル
+        itemGetSound = SKAction.playSoundFileNamed("itemGet.mp3", waitForCompletion: true)
             
         // 各種スプライトを生成する処理をメソッドに分割
         setupGround()
@@ -269,8 +275,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // スプライトを作成
         item = SKSpriteNode(texture: itemTexture)
         item.size = CGSize(width: bird.size.width * 1.5, height: bird.size.width * 1.5)
-        let xPosition = CGFloat(arc4random_uniform(UInt32(size.width - itemTexture.size().width))) + itemTexture.size().width * 0.5
-        item.position = CGPoint(x: xPosition, y: self.frame.size.height)
+        item.position = CGPoint(x: self.frame.size.width / 2.0, y: self.frame.size.height)
         
         // 物理演算を設定
         item.physicsBody = SKPhysicsBody(circleOfRadius: bird.size.width * 1.5 / 2.0)
@@ -332,6 +337,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("itemScoreUp")
             itemScore += 1
             itemScoreLabelNode.text = "Item Score:\(itemScore)"
+            
+            // 効果音を鳴らす
+            self.run(itemGetSound)
             
             // ベストスコア更新か確認する
             var itemBestScore = userDefaults.integer(forKey: "itemBEST")

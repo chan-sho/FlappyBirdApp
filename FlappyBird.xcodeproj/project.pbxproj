@@ -13,6 +13,7 @@
 		31BF2E912131369E00DA53F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31BF2E902131369E00DA53F0 /* Assets.xcassets */; };
 		31BF2E942131369E00DA53F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31BF2E922131369E00DA53F0 /* LaunchScreen.storyboard */; };
 		31BF2E9C2131398100DA53F0 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BF2E9B2131398100DA53F0 /* GameScene.swift */; };
+		31BF2E9E21327E6300DA53F0 /* itemGet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31BF2E9D21327E6300DA53F0 /* itemGet.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		31BF2E932131369E00DA53F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31BF2E952131369E00DA53F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		31BF2E9B2131398100DA53F0 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		31BF2E9D21327E6300DA53F0 /* itemGet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = itemGet.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		31BF2E882131369C00DA53F0 /* FlappyBird */ = {
 			isa = PBXGroup;
 			children = (
+				31BF2E9D21327E6300DA53F0 /* itemGet.mp3 */,
 				31BF2E892131369C00DA53F0 /* AppDelegate.swift */,
 				31BF2E8B2131369C00DA53F0 /* ViewController.swift */,
 				31BF2E9B2131398100DA53F0 /* GameScene.swift */,
@@ -125,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31BF2E9E21327E6300DA53F0 /* itemGet.mp3 in Resources */,
 				31BF2E942131369E00DA53F0 /* LaunchScreen.storyboard in Resources */,
 				31BF2E912131369E00DA53F0 /* Assets.xcassets in Resources */,
 				31BF2E8F2131369C00DA53F0 /* Main.storyboard in Resources */,
