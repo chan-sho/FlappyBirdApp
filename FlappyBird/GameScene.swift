@@ -29,8 +29,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var itemScore = 0
     var itemScoreLabelNode:SKLabelNode!
     var itemBestScoreLabelNode:SKLabelNode!
-    // ゲームオーバー時のラベル
-    var endLabelNode:SKLabelNode!
     
     let userDefaults:UserDefaults = UserDefaults.standard
     
@@ -270,19 +268,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // スプライトを作成
         item = SKSpriteNode(texture: itemTexture)
-        item.size = CGSize(width: item.size.width*0.2, height: item.size.height*0.2)
+        item.size = CGSize(width: bird.size.width * 1.5, height: bird.size.width * 1.5)
         let xPosition = CGFloat(arc4random_uniform(UInt32(size.width - itemTexture.size().width))) + itemTexture.size().width * 0.5
         item.position = CGPoint(x: xPosition, y: self.frame.size.height)
         
         // 物理演算を設定
-        item.physicsBody = SKPhysicsBody(circleOfRadius: item.size.height / 10.0)
+        item.physicsBody = SKPhysicsBody(circleOfRadius: bird.size.width * 1.5 / 2.0)
         
         // 衝突した時に回転させない
         item.physicsBody?.allowsRotation = false
         
         // 衝突のカテゴリー設定
         item.physicsBody?.categoryBitMask = self.itemCategory
-        item.physicsBody?.collisionBitMask = birdCategory | groundCategory | wallCategory
+        item.physicsBody?.collisionBitMask = birdCategory | wallCategory
         item.physicsBody?.contactTestBitMask = birdCategory
         
         // スプライトを追加する
@@ -333,17 +331,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // スコア用の物体と衝突した
             print("itemScoreUp")
             itemScore += 1
-            itemScoreLabelNode.text = "Score:\(itemScore)"
+            itemScoreLabelNode.text = "Item Score:\(itemScore)"
             
             // ベストスコア更新か確認する
             var itemBestScore = userDefaults.integer(forKey: "itemBEST")
             if itemScore > itemBestScore {
                 itemBestScore = itemScore
-                itemBestScoreLabelNode.text = "Best Score:\(itemBestScore)"
+                itemBestScoreLabelNode.text = "Item Best Score:\(itemBestScore)"
                 userDefaults.set(itemBestScore, forKey: "itemBEST")
                 userDefaults.synchronize()
             }
-            
+            var circleBody: SKPhysicsBody
+            if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+                circleBody = contact.bodyB
+            } else {
+                circleBody = contact.bodyA
+            }
+            circleBody.node?.removeFromParent()
         }
         else {
             // 壁か地面と衝突した
@@ -359,13 +363,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.bird.speed = 0
             })
             
-            endLabelNode = SKLabelNode()
-            endLabelNode.fontColor = UIColor.red
-            endLabelNode.position = CGPoint(x: 10, y: self.frame.size.height - 180)
-            endLabelNode.zPosition = 100 // 一番手前に表示する
-            endLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
-            endLabelNode?.text = "タップして再スタート"
-            self.addChild(endLabelNode)
         }
     }
     
@@ -373,7 +370,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         score = 0
         scoreLabelNode.text = String("Score:\(score)")
         itemScore = 0
-        itemScoreLabelNode.text = String("Score:\(itemScore)")
+        itemScoreLabelNode.text = String("Item Score:\(itemScore)")
         
         bird.position = CGPoint(x: self.frame.size.width * 0.2, y:self.frame.size.height * 0.7)
         bird.physicsBody?.velocity = CGVector.zero
@@ -412,7 +409,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         itemScoreLabelNode.position = CGPoint(x: 10, y: self.frame.size.height - 120)
         itemScoreLabelNode.zPosition = 100 // 一番手前に表示する
         itemScoreLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
-        itemScoreLabelNode.text = "Score:\(score)"
+        itemScoreLabelNode.text = "Item Score:\(score)"
         self.addChild(itemScoreLabelNode)
         
         itemBestScoreLabelNode = SKLabelNode()
@@ -422,7 +419,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         itemBestScoreLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         
         let itemBestScore = userDefaults.integer(forKey: "itemBEST")
-        itemBestScoreLabelNode.text = "Best Score:\(itemBestScore)"
+        itemBestScoreLabelNode.text = "Item Best Score:\(itemBestScore)"
         self.addChild(itemBestScoreLabelNode)
     }
 }
